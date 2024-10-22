@@ -1,4 +1,4 @@
-import Swipe from "react-easy-swipe";
+import { useSwipeable } from "react-swipeable";
 
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./constants";
 import {
@@ -131,20 +131,27 @@ const App = () => {
   useEvent("keydown", handleKeyDown);
 
   const handleSwipeLeft = () => {
-    setGameState(mutateSwipe(MOVEMENTS.LEFT));
+    setGameState(handleSwipe(MOVEMENTS.LEFT));
   };
 
   const handleSwipeRight = () => {
-    setGameState(mutateSwipe(MOVEMENTS.RIGHT));
+    setGameState(handleSwipe(MOVEMENTS.RIGHT));
   };
 
   const handleSwipeDown = () => {
-    setGameState(mutateSwipe(MOVEMENTS.DOWN));
+    setGameState(handleSwipe(MOVEMENTS.DOWN));
   };
 
   const handleSwipeUp = () => {
-    setGameState(mutateSwipe(MOVEMENTS.UP));
+    setGameState(handleSwipe(MOVEMENTS.UP));
   };
+
+  const handlers = useSwipeable({
+    onSwipedDown: handleSwipeDown,
+    onSwipedLeft: handleSwipeLeft,
+    onSwipedRight: handleSwipeRight,
+    onSwipedUp: handleSwipeUp,
+  });
 
   return (
     <S.Container>
@@ -168,13 +175,7 @@ const App = () => {
           score={score}
         />
 
-        <Swipe
-          onSwipeDown={handleSwipeDown}
-          onSwipeLeft={handleSwipeLeft}
-          onSwipeRight={handleSwipeRight}
-          onSwipeUp={handleSwipeUp}
-          style={{ overflowY: "hidden" }}
-        >
+        <div {...handlers} style={{ overflowY: "hidden" }}>
           <S.BlocksContainer>
             {gameState.map((row, index) => (
               <Row key={index}>
@@ -184,7 +185,7 @@ const App = () => {
               </Row>
             ))}
           </S.BlocksContainer>
-        </Swipe>
+        </div>
       </S.Board>
 
       <Rules />
