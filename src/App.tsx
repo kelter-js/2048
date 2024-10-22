@@ -15,11 +15,11 @@ import { MOVEMENTS } from "./entities/movements";
 import { Block } from "./components/Block/";
 import { useEvent } from "./hooks/useEvent";
 import { Rules } from "./components/Rules";
+import { Statistics } from "./Statistics";
 import { Row } from "./components/Row";
 import { GridData } from "./types";
 import * as S from "./styled.index";
 import "./App.css";
-import { Statistics } from "./Statistics";
 
 const App = () => {
   const {
@@ -67,12 +67,19 @@ const App = () => {
   };
 
   const mutateSwipe = (direction: MOVEMENTS) => {
-    const oldGrid = gameState;
+    const { newGrid } = handleMovement(direction);
+
+    return newGrid;
+  };
+
+  const handleSwipe = (direction: MOVEMENTS) => {
     const { scoreCounter, newGrid } = handleMovement(direction);
 
-    setScore((state) => state + scoreCounter);
-
-    handleAddNumber(oldGrid, newGrid);
+    if (isEqual(gameState, newGrid)) {
+      updateMovesAmount();
+      setScore((state) => state + scoreCounter);
+      handleAddNumber(gameState, newGrid);
+    }
 
     return newGrid;
   };
@@ -83,25 +90,29 @@ const App = () => {
     }
 
     switch (event.keyCode) {
-      case UP_ARROW:
-        setGameState(mutateSwipe(MOVEMENTS.UP));
-        updateMovesAmount();
-        break;
+      case UP_ARROW: {
+        setGameState(handleSwipe(MOVEMENTS.UP));
 
-      case DOWN_ARROW:
-        setGameState(mutateSwipe(MOVEMENTS.DOWN));
-        updateMovesAmount();
         break;
+      }
 
-      case LEFT_ARROW:
-        setGameState(mutateSwipe(MOVEMENTS.LEFT));
-        updateMovesAmount();
-        break;
+      case DOWN_ARROW: {
+        setGameState(handleSwipe(MOVEMENTS.DOWN));
 
-      case RIGHT_ARROW:
-        setGameState(mutateSwipe(MOVEMENTS.RIGHT));
-        updateMovesAmount();
         break;
+      }
+
+      case LEFT_ARROW: {
+        setGameState(handleSwipe(MOVEMENTS.LEFT));
+
+        break;
+      }
+
+      case RIGHT_ARROW: {
+        setGameState(handleSwipe(MOVEMENTS.RIGHT));
+
+        break;
+      }
 
       default:
         break;
