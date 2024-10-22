@@ -9,7 +9,7 @@ html {
   --dark-main: #111517;
   --confirm-color: #1f93e0;
   --main-text: #b8bbbd;
-  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
 }
 
 body {
