@@ -84,6 +84,17 @@ const App = () => {
     return newGrid;
   };
 
+  const handleGameStateChange = () => {
+    if (isWinGame(gameState)) {
+      setWinGame(true);
+      return;
+    }
+
+    if (isGameOver(gameState, mutateSwipe)) {
+      setGameOver(true);
+    }
+  };
+
   const handleKeyDown = (event: any) => {
     if (gameOver) {
       return;
@@ -118,32 +129,29 @@ const App = () => {
         break;
     }
 
-    if (isWinGame(gameState)) {
-      setWinGame(true);
-      return;
-    }
-
-    if (isGameOver(gameState, mutateSwipe)) {
-      setGameOver(true);
-    }
+    handleGameStateChange();
   };
 
   useEvent("keydown", handleKeyDown);
 
   const handleSwipeLeft = () => {
     setGameState(handleSwipe(MOVEMENTS.LEFT));
+    handleGameStateChange();
   };
 
   const handleSwipeRight = () => {
     setGameState(handleSwipe(MOVEMENTS.RIGHT));
+    handleGameStateChange();
   };
 
   const handleSwipeDown = () => {
     setGameState(handleSwipe(MOVEMENTS.DOWN));
+    handleGameStateChange();
   };
 
   const handleSwipeUp = () => {
     setGameState(handleSwipe(MOVEMENTS.UP));
+    handleGameStateChange();
   };
 
   const handlers = useSwipeable({
