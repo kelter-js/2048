@@ -151,7 +151,7 @@ const App = () => {
     onSwipedLeft: handleSwipeLeft,
     onSwipedRight: handleSwipeRight,
     onSwipedUp: handleSwipeUp,
-    touchEventOptions: { passive: false },
+    preventScrollOnSwipe: true,
   });
 
   return (
