@@ -26,7 +26,7 @@ export const GameOverOverlay: FC<GameOverOverlayProps> = ({
         <Statistics
           score={score}
           movesAmount={movesAmount}
-          isGameOver={isGameOver}
+          isGameOver={isGameOver || isGameWin}
         />
 
         <NewGameButton
