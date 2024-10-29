@@ -1,10 +1,10 @@
 import { FC } from "react";
 
+import { GAME_WIN_DESCRIPTION, GAME_OVER_DESCRIPTION } from "../../constants";
 import { NewGameButton } from "../NewGameButton";
 import { GameOverOverlayProps } from "./types";
-import { GAME_WIN_DESCRIPTION, GAME_OVER_DESCRIPTION } from "../../constants";
+import { Statistics } from "../Statistics";
 import { GameOverContainer, Header } from "./GameOverOverlay.styled";
-import { Statistics } from "../../Statistics";
 
 export const GameOverOverlay: FC<GameOverOverlayProps> = ({
   onReset,

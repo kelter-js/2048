@@ -1,4 +1,4 @@
-import { StatisticsProps } from "../../Statistics/types";
+import { StatisticsProps } from "../Statistics/types";
 
 export interface GameOverOverlayProps
   extends Omit<StatisticsProps, "isGameOver"> {
