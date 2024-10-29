@@ -8,7 +8,7 @@ export const MIN_AMOUNT_OF_ROWS_AND_COLUMNS = 2;
 export const WIN_VALUE = 2048;
 
 export const GAME_OVER_DESCRIPTION = "Игра закончена!";
-export const GAME_WIN_DESCRIPTION = "Вы выйграли!";
+export const GAME_WIN_DESCRIPTION = "Вы выиграли!";
 
 export const INITIATE_FIELD = [
   [0, 0, 0, 0],
