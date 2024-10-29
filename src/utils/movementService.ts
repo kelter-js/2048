@@ -1,5 +1,7 @@
 import * as lodash from "lodash";
+
 import { GridData } from "../types";
+import { MOVEMENTS } from "../entities/movements";
 
 export const movementService = {
   moveLeft(grid: GridData) {
@@ -185,5 +187,29 @@ export const movementService = {
     }
 
     return { scoreCounter, newGrid };
+  },
+
+  handleMovement(direction: MOVEMENTS, gameState: GridData) {
+    switch (direction) {
+      case MOVEMENTS.LEFT: {
+        return this.moveLeft(gameState);
+      }
+
+      case MOVEMENTS.RIGHT: {
+        return this.moveRight(gameState);
+      }
+
+      case MOVEMENTS.DOWN: {
+        return this.moveDown(gameState);
+      }
+
+      case MOVEMENTS.UP: {
+        return this.moveUp(gameState);
+      }
+
+      default: {
+        return { scoreCounter: 0, newGrid: gameState };
+      }
+    }
   },
 };
