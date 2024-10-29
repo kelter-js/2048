@@ -1,6 +1,5 @@
 import { useSwipeable } from "react-swipeable";
 
-import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./constants";
 import {
   addRandomNumberInGrid,
   movementService,
@@ -8,16 +7,20 @@ import {
   isWinGame,
   isEqual,
 } from "./utils";
-import { GameOverOverlay } from "./components/GameOverOverlay";
-import { NewGameButton } from "./components/NewGameButton";
+import {
+  GameOverOverlay,
+  NewGameButton,
+  Statistics,
+  Block,
+  Rules,
+  Row,
+} from "./components";
+import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./constants";
 import { useGameState } from "./hooks/useGameState";
-import { MOVEMENTS } from "./entities/movements";
-import { Block } from "./components/Block/";
 import { useEvent } from "./hooks/useEvent";
-import { Rules } from "./components/Rules";
-import { Statistics } from "./Statistics";
-import { Row } from "./components/Row";
+import { MOVEMENTS } from "./entities/movements";
 import { GridData } from "./types";
+
 import * as S from "./styled.index";
 import "./App.css";
 
@@ -42,38 +45,17 @@ const App = () => {
     }
   };
 
-  const handleMovement = (direction: MOVEMENTS) => {
-    switch (direction) {
-      case MOVEMENTS.LEFT: {
-        return movementService.moveLeft(gameState);
-      }
-
-      case MOVEMENTS.RIGHT: {
-        return movementService.moveRight(gameState);
-      }
-
-      case MOVEMENTS.DOWN: {
-        return movementService.moveDown(gameState);
-      }
-
-      case MOVEMENTS.UP: {
-        return movementService.moveUp(gameState);
-      }
-
-      default: {
-        return { scoreCounter: 0, newGrid: gameState };
-      }
-    }
-  };
-
   const mutateSwipe = (direction: MOVEMENTS) => {
-    const { newGrid } = handleMovement(direction);
+    const { newGrid } = movementService.handleMovement(direction, gameState);
 
     return newGrid;
   };
 
   const handleSwipe = (direction: MOVEMENTS) => {
-    const { scoreCounter, newGrid } = handleMovement(direction);
+    const { scoreCounter, newGrid } = movementService.handleMovement(
+      direction,
+      gameState
+    );
 
     if (isEqual(gameState, newGrid)) {
       updateMovesAmount();
@@ -134,33 +116,27 @@ const App = () => {
 
   useEvent("keydown", handleKeyDown);
 
-  const handleSwipeLeft = () => {
-    setGameState(handleSwipe(MOVEMENTS.LEFT));
-    handleGameStateChange();
-  };
-
-  const handleSwipeRight = () => {
-    setGameState(handleSwipe(MOVEMENTS.RIGHT));
-    handleGameStateChange();
-  };
-
-  const handleSwipeDown = () => {
-    setGameState(handleSwipe(MOVEMENTS.DOWN));
-    handleGameStateChange();
-  };
-
-  const handleSwipeUp = () => {
-    setGameState(handleSwipe(MOVEMENTS.UP));
-    handleGameStateChange();
-  };
-
-  const handlers = useSwipeable({
-    onSwipedDown: handleSwipeDown,
-    onSwipedLeft: handleSwipeLeft,
-    onSwipedRight: handleSwipeRight,
-    onSwipedUp: handleSwipeUp,
+  const swipeConfig = {
+    onSwipedDown: () => {
+      setGameState(handleSwipe(MOVEMENTS.DOWN));
+      handleGameStateChange();
+    },
+    onSwipedLeft: () => {
+      setGameState(handleSwipe(MOVEMENTS.LEFT));
+      handleGameStateChange();
+    },
+    onSwipedRight: () => {
+      setGameState(handleSwipe(MOVEMENTS.RIGHT));
+      handleGameStateChange();
+    },
+    onSwipedUp: () => {
+      setGameState(handleSwipe(MOVEMENTS.UP));
+      handleGameStateChange();
+    },
     preventScrollOnSwipe: true,
-  });
+  };
+
+  const handlers = useSwipeable(swipeConfig);
 
   return (
     <S.Container>
