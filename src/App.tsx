@@ -160,7 +160,7 @@ const App = () => {
           score={score}
         />
 
-        <div {...handlers} style={{ overflowY: "hidden" }}>
+        <S.GameField {...handlers}>
           <S.BlocksContainer>
             {gameState.map((row, index) => (
               <Row key={index}>
@@ -170,7 +170,7 @@ const App = () => {
               </Row>
             ))}
           </S.BlocksContainer>
-        </div>
+        </S.GameField>
       </S.Board>
 
       <Rules />

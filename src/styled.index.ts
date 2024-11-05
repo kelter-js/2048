@@ -44,3 +44,7 @@ export const StatsContainer = styled("div")`
   justify-content: space-between;
   width: 100%;
 `;
+
+export const GameField = styled("div")`
+  overflow-y: hidden;
+`;
